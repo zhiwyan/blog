@@ -104,3 +104,9 @@ theme: next
 deploy:
   type: git
   repo: https://github.com/zhiwyan/zhiwyan.github.io.git
+
+search:
+  path: search.xml
+  field: post
+  content: true
+  format: html
