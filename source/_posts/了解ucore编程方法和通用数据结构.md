@@ -25,6 +25,8 @@ struct pmm_manager {
 };
 ```
 
+### 通用数据结构
+
 - 双向循环链表
 ```
 typedef struct foo {
@@ -59,6 +61,16 @@ struct Page {
     list_del(list_entry_t *listelm)
 ```
 
+- 访问链表节点所在的宿主数据结构
+```
+free_area_t free_data;
+list_entry_t *le = &free_area.free_list;
+while((le=list_next(le)) != &free_area.free_list) {
+    struct Page *p = le2page(le, page_link);
+    ......
+}
 
-
-### 通用数据结构
+#define le2page(le, member)  to_struct((le), struct Page, member)
+#define to_struct(ptr, type, member)    ((type *)((char *)(ptr) - offsetof(type, member)))
+#define offsetof(type, member)  ((size_t)(&((type *)0)->member))
+```
