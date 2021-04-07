@@ -22,8 +22,43 @@ struct pmm_manager {
     void (*free_pages)(struct Page *base, size_t n);
     size_t (*nr_free_pages)(void);
     void (*check)(void);
+};
+```
+
+- 双向循环链表
+```
+typedef struct foo {
+    ElemType data;
+    struct foo *prev;
+    struct foo *next;
+} foo_t;
+```
+
+- uCore的双向链表结构定义
+```
+struct list_entry {
+    struct list_entry *prev,*next;
+};
+
+typedef struct {
+    list_entry_t free_list;
+    unsigned int nr_free;
+} free_area_t;
+
+struct Page {
+    atomic_t ref;
+    .......
+    list_entry_t page_link;
 }
 ```
+
+- 链表操作函数
+```
+    list_init(list_entry_t *elm)
+    list_add_after和list_add_before
+    list_del(list_entry_t *listelm)
+```
+
 
 
 ### 通用数据结构
